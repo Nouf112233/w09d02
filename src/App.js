@@ -4,6 +4,7 @@ import Register from "./components/Register";
 import SignIn from "./components/SignIn";
 import Account from "./components/Account";
 import Tasks from "./components/tasks";
+import Task from "./components/Task";
 // import axios from "axios";
 import "./App.css";
 import { useSelector } from "react-redux";
@@ -19,12 +20,18 @@ const state =useSelector((state)=>{
 
   return (
     <>
-     
-        <Account  />
+     {!state.signIn.token ?
+        <Account  />:
+         (state.signIn.role=="user"?
+          <Tasks  />:
+         ( state.signIn.role=="admin"&&
+          <Task  />)
+          )
+      }
      
       <Routes>
-       <Route exact path="/tasks" element={<Tasks  />}
-        <Route exact path="/task" element={<Task  />} /> */}
+       <Route exact path="/tasks" element={<Tasks  />}/>
+        <Route exact path="/task" element={<Task  />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/signin" element={<SignIn  />} />
         {/* <Route exact path="/logout" element={<LogOut setToken={setToken} />} /> */}

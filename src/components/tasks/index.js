@@ -1,22 +1,46 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 
-const Tasks = ({taskUser,toke,setUp,up }) => {
+const Tasks = () => {
+
+    const state =useSelector((state)=>{
+        console.log("state",state);
+            return state;  
+      })
   
-  
+    const [taskUser, setTaskUser] = useState([]);
   const [taskName, setTaskname] = useState("");
   const [taskadd, setTaskadd] = useState("");
+
+
+  const getTasks = async () => {
+    
+    try {
+      const tasks = await axios.get(
+        `${process.env.REACT_APP_BASIC_URL}/tasks`,
+        { headers: { Authorization: `Bearer ${state.signIn.token}` } }
+      );
+        // console.log("tasks", tasks.data);
+      setTaskUser(tasks.data);
+     
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 
   const deletetask = async (taskId) => {
     try {
       const result = await axios.delete(
         `${process.env.REACT_APP_BASIC_URL}/task`,
-        { data: { taskId } },
-        { headers: { Authorization: `Bearer ${toke}` } }
+        {taskId },
+        { headers: { Authorization: `Bearer ${state.signIn.token}` } }
       );
-      setUp(!up);
+    //   setUp(!up);
     } catch (error) {
       console.log(error);
     }
@@ -27,11 +51,11 @@ const Tasks = ({taskUser,toke,setUp,up }) => {
       axios.put(
         `${process.env.REACT_APP_BASIC_URL}/task`,
         { taskId: _id, taskName: taskName },
-        { headers: { Authorization: `Bearer ${toke}` } }
+        { headers: { Authorization: `Bearer ${state.signIn.token}` } }
       );
     }
     setTaskname("");
-    setUp(!up);
+  
   };
 
   const createTask = () => {
@@ -40,12 +64,16 @@ const Tasks = ({taskUser,toke,setUp,up }) => {
       axios.post(
         `${process.env.REACT_APP_BASIC_URL}/create`,
         { name: taskadd },
-        { headers: { Authorization: `Bearer ${toke}` } }
+        { headers: { Authorization: `Bearer ${state.signIn.token}` } }
       );
     }
     setTaskadd("");
-    setUp(!up);
+
   };
+
+  useEffect(() => {
+    getTasks();
+  }, []);
 
   return (
     <div>
