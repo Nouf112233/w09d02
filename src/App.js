@@ -10,31 +10,26 @@ import "./App.css";
 import { useSelector } from "react-redux";
 
 function App() {
-
-const state =useSelector((state)=>{
-  console.log("state",state);
-      return state;
-      
-      
-})
+  const state = useSelector((state) => {
+    console.log("state", state);
+    return state;
+  });
 
   return (
     <>
-     {!state.signIn.token ?
-        <Account  />:
-         (state.signIn.role=="user"?
-          <Tasks  />:
-         ( state.signIn.role=="admin"&&
-          <Task  />)
-          )
-      }
-     
+      {!state.signIn.token ? (
+        <Account />
+      ) : state.signIn.role == "user" ? (
+        <Tasks />
+      ) : (
+        state.signIn.role == "admin" && <Task />
+      )}
+
       <Routes>
-       <Route exact path="/tasks" element={<Tasks  />}/>
-        <Route exact path="/task" element={<Task  />} />
+        <Route exact path="/tasks" element={<Tasks />} />
+        <Route exact path="/task" element={<Task />} />
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/signin" element={<SignIn  />} />
-        {/* <Route exact path="/logout" element={<LogOut setToken={setToken} />} /> */}
+        <Route exact path="/signin" element={<SignIn />} />
       </Routes>
     </>
   );

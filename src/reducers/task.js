@@ -7,13 +7,7 @@ const tasks=(state=instialState,action)=>{
     switch (type){
         case "ADD":
             const {name}=payload;
-            return{name};
-        case "DELETE":
-            const {name}=payload;
-            return{name};
-        case "UPDATE":
-            const {name}=payload;
-            return{name};
+            return name;
         default:
             return state;
     }
@@ -29,16 +23,3 @@ export const add=(data)=>{
     };
 };
 
-export const delet=(data)=>{
-    return {
-        type:"DELETE",
-        payload:data
-    };
-};
-
-export const update=(data)=>{
-    return {
-        type:"UPDATE",
-        payload:data
-    };
-};

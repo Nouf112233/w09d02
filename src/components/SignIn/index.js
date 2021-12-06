@@ -14,12 +14,12 @@ const SignIn = ({setToken}) => {
     const navigate = useNavigate();
 
     const signin=async()=>{
-        const role="user"
+        let role="";
         const user=await axios.post(`${process.env.REACT_APP_BASIC_URL}/login`, {email:email,password:password})
         if(user.data.role=="61a611731b5718ea5ec72247")
         {
              role="admin"
-        }
+        }else{role="user";}
         const data={
             role:role,
             token:user.data.token
